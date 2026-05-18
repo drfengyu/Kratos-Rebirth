@@ -3,52 +3,55 @@
 <script src="https://cdn.jsdelivr.net/npm/live2d-widget@latest/lib/L2Dwidget.0.min.js"></script>
 
 <style>
-  /* Live2D 看板娘样式 */
+  /* Live2D 看板娘 - 移到左侧，减小尺寸 */
   #live2d-widget {
     position: fixed;
     bottom: 0;
-    right: 0;
-    z-index: 999;
+    left: 0 !important;
+    right: auto !important;
+    z-index: 500 !important;
   }
 
   #live2d {
     position: fixed;
     bottom: 0;
-    right: 0;
-    z-index: 1000;
+    left: 0 !important;
+    right: auto !important;
+    z-index: 500 !important;
   }
 
   .live2d-widget-container {
     position: fixed;
     bottom: 0;
-    right: 0;
-    z-index: 999;
+    left: 0 !important;
+    right: auto !important;
+    z-index: 500 !important;
   }
 
-  /* 消息框样式 - 简化版本 */
+  /* 消息框样式 - 显示在看板娘上方 */
   .live2d-message-box {
     position: fixed;
-    bottom: 420px !important;
-    right: 30px !important;
-    background: rgba(0, 0, 0, 0.85) !important;
+    bottom: 280px !important;
+    left: 30px !important;
+    background: rgba(0, 0, 0, 0.9) !important;
     color: #ffffff !important;
-    padding: 15px 20px !important;
-    border-radius: 8px !important;
-    font-size: 14px !important;
-    z-index: 99999 !important;
-    max-width: 200px !important;
+    padding: 12px 16px !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    z-index: 10001 !important;
+    max-width: 160px !important;
     word-wrap: break-word !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-    line-height: 1.6 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    animation: slideIn 0.3s ease-out !important;
+    line-height: 1.5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    pointer-events: none !important;
   }
 
   @keyframes slideIn {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(10px);
     }
     to {
       opacity: 1;
@@ -63,12 +66,22 @@
     }
     to {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(10px);
     }
+  }
+
+  .live2d-message-box {
+    animation: slideIn 0.3s ease-out !important;
   }
 
   .live2d-message-box.fade-out {
     animation: slideOut 0.3s ease-in forwards !important;
+  }
+
+  /* 右侧按钮保持可点击 */
+  .search-btn, .theme-toggle, [class*="search"], [class*="theme"] {
+    z-index: 1001 !important;
+    position: relative !important;
   }
 
   @media (max-width: 768px) {
@@ -81,30 +94,37 @@
 </style>
 
 <script>
-  // 简化的消息显示系统
+  // 消息显示函数
   window.showLive2DMessage = function(text, duration) {
-    duration = duration || 3000;
+    duration = duration || 2500;
 
     // 移除旧消息
     var oldMsg = document.querySelector('.live2d-message-box');
     if (oldMsg) {
-      oldMsg.remove();
+      oldMsg.classList.add('fade-out');
+      setTimeout(function() {
+        oldMsg.remove();
+      }, 300);
+      return;
     }
 
     // 创建新消息
     var msgBox = document.createElement('div');
     msgBox.className = 'live2d-message-box';
     msgBox.textContent = text;
+    msgBox.style.display = 'block';
     document.body.appendChild(msgBox);
-
-    console.log('显示消息:', text); // 调试信息
 
     // 自动移除
     setTimeout(function() {
-      msgBox.classList.add('fade-out');
-      setTimeout(function() {
-        msgBox.remove();
-      }, 300);
+      if (msgBox && msgBox.parentNode) {
+        msgBox.classList.add('fade-out');
+        setTimeout(function() {
+          if (msgBox && msgBox.parentNode) {
+            msgBox.remove();
+          }
+        }, 300);
+      }
     }, duration);
   };
 
@@ -116,9 +136,9 @@
         scale: 1
       },
       "display": {
-        "position": "right",
-        "width": 200,
-        "height": 400,
+        "position": "left",
+        "width": 150,
+        "height": 300,
         "hOffset": 0,
         "vOffset": 0
       },
@@ -137,25 +157,28 @@
         "api": "https://v.api.aa1.cn/api/yiyan/index.php"
       }
     });
-    console.log('Live2D Widget 初始化成功');
   } catch (e) {
     console.warn('Live2D Widget 初始化失败:', e);
   }
 
   // 页面加载完成后添加交互
   window.addEventListener('load', function() {
-    console.log('页面加载完成，准备显示欢迎消息');
-
     setTimeout(function() {
-      window.showLive2DMessage('欢迎来到我的博客~', 3000);
-    }, 800);
+      window.showLive2DMessage('欢迎来到我的博客~', 2500);
+    }, 1000);
 
     // 点击页面的交互
     document.addEventListener('click', function(e) {
+      // 避免点击按钮时触发
+      if (e.target.closest('.search-btn, .theme-toggle, [class*="search"], [class*="theme"]')) {
+        return;
+      }
+
       var x = e.clientX;
       var y = e.clientY;
-      var distance = Math.sqrt(Math.pow(x - window.innerWidth, 2) + Math.pow(y, 2));
+      var distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
+      // 如果点击距离看板娘较远
       if (distance > 300) {
         var messages = [
           '你点击了页面呢~',
@@ -164,7 +187,7 @@
           '继续浏览吧~'
         ];
         var randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        window.showLive2DMessage(randomMsg, 2500);
+        window.showLive2DMessage(randomMsg, 2000);
       }
     });
 
@@ -173,9 +196,9 @@
     document.addEventListener('mousemove', function(e) {
       var x = e.clientX;
       var y = e.clientY;
-      var distance = Math.sqrt(Math.pow(x - window.innerWidth, 2) + Math.pow(y, 2));
+      var distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
-      if (distance < 300 && !nearbyShown) {
+      if (distance < 250 && !nearbyShown) {
         var greetings = [
           '你想和我互动吗？',
           '靠近我了呢~',
@@ -183,21 +206,21 @@
           '想聊天吗？'
         ];
         var randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-        window.showLive2DMessage(randomGreeting, 3000);
+        window.showLive2DMessage(randomGreeting, 2500);
         nearbyShown = true;
 
         setTimeout(function() {
           nearbyShown = false;
-        }, 5000);
+        }, 4000);
       }
     });
 
     // 页面隐藏/显示的交互
     document.addEventListener('visibilitychange', function() {
       if (document.hidden) {
-        window.showLive2DMessage('你去哪里了呢？', 2500);
+        window.showLive2DMessage('你去哪里了呢？', 2000);
       } else {
-        window.showLive2DMessage('欢迎回来~', 2500);
+        window.showLive2DMessage('欢迎回来~', 2000);
       }
     });
 
@@ -212,8 +235,8 @@
           '还有更多内容哦~'
         ];
         var randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        window.showLive2DMessage(randomMsg, 2500);
-      }, 2000);
+        window.showLive2DMessage(randomMsg, 2000);
+      }, 1500);
     });
   });
 </script>
