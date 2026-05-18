@@ -1,0 +1,245 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/live2d-widget@latest/lib/L2Dwidget.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@latest/lib/L2Dwidget.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@latest/lib/L2Dwidget.0.min.js"></script>
+
+<style>
+  #live2d-widget {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  #live2d {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+  }
+
+  .live2d-widget-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  /* 消息框样式 */
+  .live2d-message {
+    position: fixed;
+    bottom: 420px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 10001;
+    max-width: 220px;
+    word-wrap: break-word;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    animation: messageSlideIn 0.3s ease-out;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  @keyframes messageSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px) translateX(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) translateX(0);
+    }
+  }
+
+  @keyframes messageSlideOut {
+    from {
+      opacity: 1;
+      transform: translateY(0) translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(10px) translateX(10px);
+    }
+  }
+
+  .live2d-message.fade-out {
+    animation: messageSlideOut 0.3s ease-in forwards;
+  }
+
+  @media (max-width: 768px) {
+    #live2d-widget,
+    #live2d,
+    .live2d-widget-container {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  // 全局消息管理
+  window.Live2DMessage = {
+    queue: [],
+    current: null,
+    timeout: null,
+
+    show: function(text, duration) {
+      duration = duration || 3000;
+
+      // 如果已有消息，加入队列
+      if (this.current) {
+        this.queue.push({ text: text, duration: duration });
+        return;
+      }
+
+      this.current = text;
+      var messageDiv = document.createElement('div');
+      messageDiv.className = 'live2d-message';
+      messageDiv.textContent = text;
+      messageDiv.style.cssText = `
+        position: fixed;
+        bottom: 420px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        z-index: 10001;
+        max-width: 220px;
+        word-wrap: break-word;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      `;
+
+      document.body.appendChild(messageDiv);
+
+      var self = this;
+      this.timeout = setTimeout(function() {
+        messageDiv.classList.add('fade-out');
+        setTimeout(function() {
+          messageDiv.remove();
+          self.current = null;
+
+          // 处理队列中的下一条消息
+          if (self.queue.length > 0) {
+            var next = self.queue.shift();
+            self.show(next.text, next.duration);
+          }
+        }, 300);
+      }, duration);
+    }
+  };
+
+  // 初始化 Live2D Widget
+  L2Dwidget.init({
+    "model": {
+      jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",
+      scale: 1
+    },
+    "display": {
+      "position": "right",
+      "width": 200,
+      "height": 400,
+      "hOffset": 0,
+      "vOffset": 0
+    },
+    "mobile": {
+      "show": false
+    },
+    "react": {
+      "isMotionEnabled": true,
+      "opacityWhenMoving": 0.2,
+      "opacityWhenIdle": 0.8,
+      "opacityWhenHidden": 0.15
+    },
+    "log": false,
+    "hitokoto": {
+      "enable": true,
+      "api": "https://v1.hitokoto.cn?c=i"
+    }
+  });
+
+  // 页面加载完成后添加交互
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      window.Live2DMessage.show('欢迎来到我的博客~', 3000);
+    }, 500);
+
+    // 点击页面的交互
+    document.addEventListener('click', function(e) {
+      var x = e.clientX;
+      var y = e.clientY;
+      var distance = Math.sqrt(Math.pow(x - window.innerWidth, 2) + Math.pow(y, 2));
+
+      // 如果点击距离看板娘较远
+      if (distance > 300) {
+        var messages = [
+          '你点击了页面呢~',
+          '在看什么呢？',
+          '有什么我可以帮助的吗？',
+          '继续浏览吧~'
+        ];
+        var randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        window.Live2DMessage.show(randomMsg, 2500);
+      }
+    });
+
+    // 鼠标移动到看板娘附近的交互
+    var nearbyShown = false;
+    document.addEventListener('mousemove', function(e) {
+      var x = e.clientX;
+      var y = e.clientY;
+      var distance = Math.sqrt(Math.pow(x - window.innerWidth, 2) + Math.pow(y, 2));
+
+      if (distance < 300 && !nearbyShown) {
+        var greetings = [
+          '你想和我互动吗？',
+          '靠近我了呢~',
+          '你好呀~',
+          '想聊天吗？'
+        ];
+        var randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+        window.Live2DMessage.show(randomGreeting, 3000);
+        nearbyShown = true;
+
+        setTimeout(function() {
+          nearbyShown = false;
+        }, 5000);
+      }
+    });
+
+    // 页面隐藏/显示的交互
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        window.Live2DMessage.show('你去哪里了呢？', 2500);
+      } else {
+        window.Live2DMessage.show('欢迎回来~', 2500);
+      }
+    });
+
+    // 页面滚动时的交互
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        var messages = [
+          '在看什么有趣的内容呢？',
+          '继续往下看吧~',
+          '还有更多内容哦~'
+        ];
+        var randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        window.Live2DMessage.show(randomMsg, 2500);
+      }, 2000);
+    });
+  });
+
+  // 确保消息框在最前面
+  setInterval(function() {
+    var messageElements = document.querySelectorAll('.live2d-message');
+    messageElements.forEach(function(el) {
+      el.style.zIndex = '10001';
+    });
+  }, 100);
+</script>
