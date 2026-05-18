@@ -58,8 +58,8 @@ index:
 
 # Top Menu 顶部导航栏配置 （具体格式请参照文档）
 menu:
-  # index: /
-  # archives: /archives/
+  index: /
+  archives: /archives/
   # friends: /friends/
   # sites:
   #   submenu: true
@@ -67,8 +67,8 @@ menu:
   #   project: https://github.com/Candinya/Kratos-Rebirth
 
 label:
-  # index: <i class="fa fa-home"></i>首页
-  # archives: <i class="fa fa-file"></i>档案馆
+  index: <i class="fa fa-home"></i>首页
+  archives: <i class="fa fa-file"></i>档案馆
   # friends: <i class="fa fa-paw"></i>好伙伴
   # sites:
   #   submenu: <i class="fa fa-link"></i>链接
@@ -255,3 +255,15 @@ friends:
 # Misc 杂项
 misc:
   showWordCountEstimateWavy: true # 在文章字数处显示表示大约字数的波浪号
+
+# Security - Content Security Policy
+# 允许 Live2D 等库使用 eval()
+csp:
+  enable: true
+  policy:
+    default-src: "'self'"
+    script-src: "'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net"
+    style-src: "'self' 'unsafe-inline' https://cdn.jsdelivr.net"
+    img-src: "'self' data: https:"
+    font-src: "'self' https://cdn.jsdelivr.net"
+    connect-src: "'self' https:"
