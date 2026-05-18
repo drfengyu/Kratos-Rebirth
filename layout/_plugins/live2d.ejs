@@ -133,33 +133,36 @@
   };
 
   // 初始化 Live2D Widget
-  L2Dwidget.init({
-    "model": {
-      jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",
-      scale: 1
-    },
-    "display": {
-      "position": "right",
-      "width": 200,
-      "height": 400,
-      "hOffset": 0,
-      "vOffset": 0
-    },
-    "mobile": {
-      "show": false
-    },
-    "react": {
-      "isMotionEnabled": true,
-      "opacityWhenMoving": 0.2,
-      "opacityWhenIdle": 0.8,
-      "opacityWhenHidden": 0.15
-    },
-    "log": false,
-    "hitokoto": {
-      "enable": true,
-      "api": "https://v1.hitokoto.cn?c=i"
-    }
-  });
+  try {
+    L2Dwidget.init({
+      "model": {
+        jsonPath: "https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",
+        scale: 1
+      },
+      "display": {
+        "position": "right",
+        "width": 200,
+        "height": 400,
+        "hOffset": 0,
+        "vOffset": 0
+      },
+      "mobile": {
+        "show": false
+      },
+      "react": {
+        "isMotionEnabled": true,
+        "opacityWhenMoving": 0.2,
+        "opacityWhenIdle": 0.8,
+        "opacityWhenHidden": 0.15
+      },
+      "log": false,
+      "hitokoto": {
+        "enable": false  // 禁用一言功能以避免 API 调用失败
+      }
+    });
+  } catch (e) {
+    console.warn('Live2D Widget 初始化失败:', e);
+  }
 
   // 页面加载完成后添加交互
   window.addEventListener('load', function() {
