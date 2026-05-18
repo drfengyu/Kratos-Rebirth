@@ -5,32 +5,32 @@
 <style>
   /* Live2D 看板娘 - 移到左侧，减小尺寸 */
   #live2d-widget {
-    position: fixed;
-    bottom: 0;
+    position: fixed !important;
+    bottom: 0 !important;
     left: 0 !important;
     right: auto !important;
     z-index: 500 !important;
   }
 
   #live2d {
-    position: fixed;
-    bottom: 0;
+    position: fixed !important;
+    bottom: 0 !important;
     left: 0 !important;
     right: auto !important;
     z-index: 500 !important;
   }
 
   .live2d-widget-container {
-    position: fixed;
-    bottom: 0;
+    position: fixed !important;
+    bottom: 0 !important;
     left: 0 !important;
     right: auto !important;
     z-index: 500 !important;
   }
 
-  /* 消息框样式 - 显示在看板娘上方 */
+  /* 消息框样式 */
   .live2d-message-box {
-    position: fixed;
+    position: fixed !important;
     bottom: 280px !important;
     left: 30px !important;
     background: rgba(0, 0, 0, 0.9) !important;
@@ -46,6 +46,7 @@
     line-height: 1.5 !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     pointer-events: none !important;
+    animation: slideIn 0.3s ease-out !important;
   }
 
   @keyframes slideIn {
@@ -70,10 +71,6 @@
     }
   }
 
-  .live2d-message-box {
-    animation: slideIn 0.3s ease-out !important;
-  }
-
   .live2d-message-box.fade-out {
     animation: slideOut 0.3s ease-in forwards !important;
   }
@@ -94,6 +91,13 @@
 </style>
 
 <script>
+  // 禁用 L2Dwidget 的网络请求
+  if (window.L2Dwidget) {
+    // 禁用一言功能
+    window.L2Dwidget.config = window.L2Dwidget.config || {};
+    window.L2Dwidget.config.hitokoto = false;
+  }
+
   // 消息显示函数
   window.showLive2DMessage = function(text, duration) {
     duration = duration || 2500;
@@ -103,7 +107,9 @@
     if (oldMsg) {
       oldMsg.classList.add('fade-out');
       setTimeout(function() {
-        oldMsg.remove();
+        if (oldMsg && oldMsg.parentNode) {
+          oldMsg.remove();
+        }
       }, 300);
       return;
     }
@@ -128,7 +134,7 @@
     }, duration);
   };
 
-  // 初始化 Live2D Widget
+  // 初始化 Live2D Widget - 禁用一言
   try {
     L2Dwidget.init({
       "model": {
@@ -153,8 +159,7 @@
       },
       "log": false,
       "hitokoto": {
-        "enable": true,
-        "api": "https://v.api.aa1.cn/api/yiyan/index.php"
+        "enable": false  // 完全禁用一言
       }
     });
   } catch (e) {
