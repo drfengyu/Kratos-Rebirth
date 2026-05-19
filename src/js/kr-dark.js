@@ -6,6 +6,10 @@
 // 作为直接影响渲染的脚本，应该在最开始就加载，不应该defer
 (() => {
     const darkmodeCss = document.getElementById('darkmode-css')
+    if (!darkmodeCss) {
+        console.warn('darkmode-css element not found');
+        return;
+    }
     const darkModeStorageKey = 'user-color-scheme';
 
     /**

@@ -6,7 +6,7 @@ const js_helper = (url, options) => {
     return `<script ${options?.id ? 'id="' + options?.id + '" ' : ''}${options?.defer ? 'defer ' : ''}${options?.async ? 'async ' : ''}src="${url}"${options?.integrity ? ' integrity="' + options.integrity + '"' : ''}></script>`
 }
 const css_helper = (url, options) => {
-    return `<link rel="stylesheet" ${options?.id ? 'id="' + options.id + '" ' : ''}href="${url}"${options?.integrity ? ' integrity="' + options.integrity + '"' : ''}${options?.media ? ' media="' + options.media + '"' : ''}></script>`
+    return `<link rel="stylesheet" ${options?.id ? 'id="' + options.id + '" ' : ''}href="${url}"${options?.integrity ? ' integrity="' + options.integrity + '"' : ''}${options?.media ? ' media="' + options.media + '"' : ''}>`
 }
 
 const url_join = (p1, p2) => {

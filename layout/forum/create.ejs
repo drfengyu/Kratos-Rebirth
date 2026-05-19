@@ -1,0 +1,296 @@
+<div class="forum-create-container">
+  <div class="create-wrapper">
+    <h1>发布新帖</h1>
+    <p class="subtitle">分享你的想法和经验</p>
+
+    <form id="post-form" class="post-form">
+      <div class="form-group">
+        <label for="post-title">帖子标题</label>
+        <input
+          type="text"
+          id="post-title"
+          name="title"
+          placeholder="请输入帖子标题"
+          maxlength="100"
+          required
+        />
+        <small>最多 100 个字符</small>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="post-category">分类</label>
+          <select id="post-category" name="category" required>
+            <option value="">选择分类</option>
+            <option value="技术">技术讨论</option>
+            <option value="生活">生活分享</option>
+            <option value="问答">问答</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="post-tags">标签（用逗号分隔）</label>
+          <input
+            type="text"
+            id="post-tags"
+            name="tags"
+            placeholder="例如：JavaScript, React, 前端"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="post-content">内容</label>
+        <textarea
+          id="post-content"
+          name="content"
+          placeholder="请输入帖子内容（支持 Markdown）"
+          rows="12"
+          required
+        ></textarea>
+        <small>支持 Markdown 格式</small>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">发布帖子</button>
+        <a href="/forum/" class="btn btn-secondary">取消</a>
+      </div>
+    </form>
+
+    <div class="tips">
+      <h3>发帖提示</h3>
+      <ul>
+        <li>请确保标题清晰明了，能准确描述帖子内容</li>
+        <li>选择合适的分类，方便其他用户查找</li>
+        <li>内容应该有实际价值，避免灌水和广告</li>
+        <li>遵守社区规则，尊重他人</li>
+        <li>支持 Markdown 格式，可以使用代码块、列表等</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+.forum-create-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.create-wrapper {
+  background: #fff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-wrapper h1 {
+  margin: 0 0 10px 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.subtitle {
+  color: #666;
+  margin: 0 0 30px 0;
+  font-size: 16px;
+}
+
+.post-form {
+  margin-bottom: 40px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group small {
+  display: block;
+  margin-top: 6px;
+  color: #999;
+  font-size: 12px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: #667eea;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #764ba2;
+}
+
+.btn-secondary {
+  background: #e9ecef;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #dee2e6;
+}
+
+.tips {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.tips h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.tips li {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .create-wrapper {
+    padding: 20px;
+  }
+
+  .create-wrapper h1 {
+    font-size: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // 检查用户是否已登录
+  if (!window.userSystem || !window.userSystem.currentUser) {
+    alert('请先登录');
+    window.location.href = '/user/login/';
+    return;
+  }
+
+  // 处理表单提交
+  document.getElementById('post-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById('post-title').value;
+    const content = document.getElementById('post-content').value;
+    const category = document.getElementById('post-category').value;
+    const tags = document.getElementById('post-tags').value;
+
+    if (!title || !content || !category) {
+      alert('请填写所有必填项');
+      return;
+    }
+
+    // 调用用户系统的发帖方法
+    await window.userSystem.handleCreatePost(e);
+  });
+
+  // 自动保存草稿
+  const contentTextarea = document.getElementById('post-content');
+  const titleInput = document.getElementById('post-title');
+
+  const saveDraft = () => {
+    const draft = {
+      title: titleInput.value,
+      content: contentTextarea.value,
+      category: document.getElementById('post-category').value,
+      tags: document.getElementById('post-tags').value,
+      savedAt: new Date().toISOString(),
+    };
+    localStorage.setItem('post_draft', JSON.stringify(draft));
+  };
+
+  contentTextarea.addEventListener('input', saveDraft);
+  titleInput.addEventListener('input', saveDraft);
+
+  // 加载草稿
+  const draft = localStorage.getItem('post_draft');
+  if (draft) {
+    const draftData = JSON.parse(draft);
+    const savedTime = new Date(draftData.savedAt).toLocaleString();
+
+    if (confirm(`发现草稿（保存于 ${savedTime}），是否恢复？`)) {
+      titleInput.value = draftData.title;
+      contentTextarea.value = draftData.content;
+      document.getElementById('post-category').value = draftData.category;
+      document.getElementById('post-tags').value = draftData.tags;
+    }
+  }
+
+  // 发布后清除草稿
+  document.getElementById('post-form').addEventListener('submit', () => {
+    localStorage.removeItem('post_draft');
+  });
+});
+</script>
