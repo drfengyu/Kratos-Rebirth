@@ -58,8 +58,9 @@ index:
 
 # Top Menu 顶部导航栏配置 （具体格式请参照文档）
 menu:
-  # index: /
-  # archives: /archives/
+  index: /
+  archives: /archives/
+  forum: /forum/
   # friends: /friends/
   # sites:
   #   submenu: true
@@ -67,8 +68,9 @@ menu:
   #   project: https://github.com/Candinya/Kratos-Rebirth
 
 label:
-  # index: <i class="fa fa-home"></i>首页
-  # archives: <i class="fa fa-file"></i>档案馆
+  index: <i class="fa fa-home"></i>首页
+  archives: <i class="fa fa-file"></i>档案馆
+  forum: <i class="fa fa-comments"></i>论坛
   # friends: <i class="fa fa-paw"></i>好伙伴
   # sites:
   #   submenu: <i class="fa fa-link"></i>链接
@@ -99,8 +101,8 @@ posts:
   show_cc: true
   donate: false
   share: true
-  comments: 
-    provider: ''
+  comments:
+    provider: 'gitalk'
     enableBGImage: false
   wordCount: 
     enable: true
@@ -142,12 +144,12 @@ waline:
 ## 不仅限于以下内容，您可以参照 [Gitalk 文档](https://github.com/gitalk/gitalk/blob/master/readme-cn.md#%E8%AE%BE%E7%BD%AE) 设置您需要的配置项
 ## id 会在页面自动生成，不必加入
 gitalk:
-  clientID: 'GitHub Application Client ID'
-  clientSecret: 'GitHub Application Client Secret'
-  repo: 'Kratos-Rebirth-Demo'
-  owner: 'Candinya'
+  clientID: 'Ov23liVsatSkhxOfKfgf'
+  clientSecret: 'f6d7a637e31457598b6b296080b065d66718d231'
+  repo: 'Notion'
+  owner: 'drfengyu'
   admin: 
-    - 'Candinya'
+    - 'drfengyu'
   distractionFreeMode: false
 
 #默认不计算hash 但是如果id过长(默认为url_for(page.path))会导致创建评论区失败 见[#139](https://github.com/Candinya/Kratos-Rebirth/issues/139)
@@ -158,11 +160,11 @@ gitalk_id_hasher: false
 ## 不仅限于以下内容，您可以参照 [Gitment 文档](https://github.com/imsun/gitment#methods) 设置您需要的配置项
 ## id 会在页面自动生成，不必加入
 gitment:
-  owner: 'Candinya'
-  repo: 'Kratos-Rebirth-Demo'
+  owner: 'drfengyu'
+  repo: 'Notion'
   oauth:
-    client_id: 'Your client ID'
-    client_secret: 'Your client secret'
+    client_id: 'Ov23liVsatSkhxOfKfgf'
+    client_secret: 'f6d7a637e31457598b6b296080b065d66718d231'
 
 # LiveRe [LiveRe](https://livere.com/) 评论相关
 livere:
@@ -255,3 +257,17 @@ friends:
 # Misc 杂项
 misc:
   showWordCountEstimateWavy: true # 在文章字数处显示表示大约字数的波浪号
+
+# Security - Content Security Policy
+# 允许 Live2D 等库使用 eval()、允许音乐播放器加载媒体资源
+# csp:
+#   enable: true
+#   policy:
+#     default-src: "'self'"
+#     script-src: "'self' https:"
+#     style-src: "'self' 'unsafe-inline' https://cdn.jsdelivr.net"
+#     img-src: "'self' data: https:"
+#     font-src: "'self' https://cdn.jsdelivr.net"
+#     media-src: "'self' https:"
+#     connect-src: "'self' https: wss:"
+#     frame-ancestors: "'self'"

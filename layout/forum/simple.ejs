@@ -1,0 +1,343 @@
+<div class="forum-simple-container">
+  <div class="forum-header">
+    <h1>社区论坛</h1>
+    <p>分享想法，交流经验，建立连接</p>
+    <div class="forum-actions">
+      <a href="/user/login/" class="btn btn-outline"><i class="fa fa-sign-in"></i> 登录</a>
+      <a href="/user/register/" class="btn btn-outline"><i class="fa fa-user-plus"></i> 注册</a>
+      <a href="/user/profile/" class="btn btn-outline" id="profile-link" style="display:none;"><i class="fa fa-user"></i> 个人资料</a>
+    </div>
+  </div>
+
+  <div class="forum-content">
+    <div class="forum-intro">
+      <h2>欢迎来到论坛</h2>
+      <p>这是一个基于 GitHub Issues 的讨论平台。你可以在下方发起讨论、提问或分享想法。</p>
+
+      <div class="forum-features">
+        <div class="feature-item">
+          <i class="fa fa-comments"></i>
+          <h3>自由讨论</h3>
+          <p>在评论区自由发表你的观点和想法</p>
+        </div>
+        <div class="feature-item">
+          <i class="fa fa-github"></i>
+          <h3>GitHub 驱动</h3>
+          <p>基于 GitHub Issues，安全可靠</p>
+        </div>
+        <div class="feature-item">
+          <i class="fa fa-users"></i>
+          <h3>社区互动</h3>
+          <p>与其他用户互动和交流</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="forum-discussions">
+      <h2>最新讨论</h2>
+      <p class="forum-note">💡 提示：在下方评论区发起新的讨论话题</p>
+
+      <div id="gitalk-container"></div>
+    </div>
+
+    <div class="forum-tips">
+      <h3>论坛规则</h3>
+      <ul>
+        <li>✅ 尊重他人，文明讨论</li>
+        <li>✅ 避免灌水和广告</li>
+        <li>✅ 提问时提供足够的信息</li>
+        <li>✅ 分享有价值的内容</li>
+        <li>❌ 禁止骚扰和人身攻击</li>
+        <li>❌ 禁止发布违法内容</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+.forum-simple-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.forum-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+}
+
+.forum-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 32px;
+}
+
+.forum-header p {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.forum-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.forum-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 20px;
+  border: 2px solid rgba(255,255,255,0.8);
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  color: white;
+}
+
+.forum-actions .btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: white;
+}
+
+.forum-content {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.forum-intro {
+  padding: 40px;
+  border-bottom: 1px solid #eee;
+}
+
+.forum-intro h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.forum-intro p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.forum-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.feature-item i {
+  font-size: 32px;
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.feature-item h3 {
+  margin: 10px 0 5px 0;
+  color: #333;
+}
+
+.feature-item p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.forum-discussions {
+  padding: 40px;
+  border-bottom: 1px solid #eee;
+}
+
+.forum-discussions h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.forum-note {
+  color: #667eea;
+  font-size: 14px;
+  margin: 10px 0 20px 0;
+}
+
+#gitalk-container {
+  margin-top: 20px;
+}
+
+.forum-tips {
+  padding: 40px;
+}
+
+.forum-tips h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.forum-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.forum-tips li {
+  padding: 10px 0;
+  color: #666;
+  border-bottom: 1px solid #eee;
+}
+
+.forum-tips li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .forum-header {
+    padding: 20px;
+  }
+
+  .forum-header h1 {
+    font-size: 24px;
+  }
+
+  .forum-intro,
+  .forum-discussions,
+  .forum-tips {
+    padding: 20px;
+  }
+
+  .forum-features {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<%
+  // 在服务器端提取配置
+  let gitalkClientID = '';
+  let gitalkClientSecret = '';
+  let gitalkRepo = '';
+  let gitalkOwner = '';
+  let gitalkAdmin = [];
+
+  if (config.theme && config.theme.gitalk) {
+    gitalkClientID = config.theme.gitalk.clientID || '';
+    gitalkClientSecret = config.theme.gitalk.clientSecret || '';
+    gitalkRepo = config.theme.gitalk.repo || '';
+    gitalkOwner = config.theme.gitalk.owner || '';
+    gitalkAdmin = config.theme.gitalk.admin || [];
+  }
+%>
+
+<script>
+// 检查 Gitalk 登录状态
+document.addEventListener('DOMContentLoaded', function() {
+  const token = localStorage.getItem('GT_ACCESS_TOKEN');
+  const profileLink = document.getElementById('profile-link');
+  if (token) {
+    profileLink.style.display = 'inline-flex';
+  }
+});
+
+// 初始化 Gitalk
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.getElementById('gitalk-container');
+
+  try {
+    const gitalkConfig = {
+      clientID: '<%= gitalkClientID %>',
+      clientSecret: '<%= gitalkClientSecret %>',
+      repo: '<%= gitalkRepo %>',
+      owner: '<%= gitalkOwner %>',
+      admin: <%- JSON.stringify(gitalkAdmin) %>,
+      id: 'forum-discussion',
+      title: '社区论坛讨论',
+      labels: ['forum'],
+      perPage: 15,
+      pagerDirection: 'last',
+      distractionFreeMode: false,
+      createIssueManually: false,
+      language: 'zh-CN'
+    };
+
+    // 检查配置是否完整
+    if (!gitalkConfig.clientID || gitalkConfig.clientID.includes('GitHub Application') || !gitalkConfig.clientID.trim()) {
+      container.innerHTML = `
+        <div style="padding: 20px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; color: #856404;">
+          <strong>⚠️ 提示：</strong> Gitalk 未配置。请在主题配置文件中填写 GitHub OAuth 应用信息。
+          <br><br>
+          配置步骤：
+          <ol>
+            <li>访问 <a href="https://github.com/settings/developers" target="_blank">GitHub OAuth Apps</a></li>
+            <li>创建新的 OAuth Application</li>
+            <li>获取 Client ID 和 Client Secret</li>
+            <li>在 <code>themes/kratos-rebirth/_config.yml</code> 中填写配置</li>
+          </ol>
+        </div>
+      `;
+      return;
+    }
+
+    // 显示加载状态
+    container.innerHTML = '<div style="padding: 20px; text-align: center; color: #999;">加载讨论中...</div>';
+
+    // 预加载 Gitalk 样式
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css';
+    document.head.appendChild(link);
+
+    // 加载 Gitalk 脚本
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js';
+    script.async = true;
+
+    script.onload = function() {
+      try {
+        const gitalk = new Gitalk(gitalkConfig);
+        gitalk.render('gitalk-container');
+      } catch (error) {
+        console.error('Gitalk 初始化失败:', error);
+        container.innerHTML = `
+          <div style="padding: 20px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; color: #721c24;">
+            <strong>❌ 错误：</strong> Gitalk 加载失败。请检查配置或稍后重试。
+            <br><small style="color: #721c24;">错误信息: ${error.message}</small>
+          </div>
+        `;
+      }
+    };
+
+    script.onerror = function() {
+      console.error('Gitalk 脚本加载失败');
+      container.innerHTML = `
+        <div style="padding: 20px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; color: #721c24;">
+          <strong>❌ 错误：</strong> 无法加载 Gitalk 脚本。请检查网络连接。
+        </div>
+      `;
+    };
+
+    document.head.appendChild(script);
+  } catch (error) {
+    console.error('Gitalk 配置错误:', error);
+    container.innerHTML = `
+      <div style="padding: 20px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; color: #721c24;">
+        <strong>❌ 错误：</strong> Gitalk 配置异常。请检查配置文件。
+      </div>
+    `;
+  }
+});
+</script>
